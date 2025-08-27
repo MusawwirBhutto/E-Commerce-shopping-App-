@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "MacBook Pro",
+      "desc": "Apple M2 Pro 14-inch Laptop",
+      "price": 1999,
+      "color": "#1e1e1e",
+      "image": "https://m.media-amazon.com/images/I/61L5QgPvgqL._AC_SL1500_.jpg"
+    },
+    {
+      "id": 2,
+      "name": "iPhone 14",
+      "desc": "Apple smartphone with A15 Bionic chip",
+      "price": 999,
+      "color": "#d4e6f1",
+      "image": "https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_SL1500_.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Samsung Galaxy Tab S8",
+      "desc": "Samsung high-end Android tablet",
+      "price": 849,
+      "color": "#f0e5de",
+      "image": "https://m.media-amazon.com/images/I/71lVwl3q-kL._AC_SL1500_.jpg"
+    },
+    {
+      "id": 4,
+      "name": "AirPods Pro 2",
+      "desc": "Apple wireless noise-cancelling earbuds",
+      "price": 249,
+      "color": "#ffffff",
+      "image": "https://m.media-amazon.com/images/I/61f1YfTkTDL._AC_SL1500_.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Dell XPS 13",
+      "desc": "High-performance Windows laptop",
+      "price": 1399,
+      "color": "#c0c0c0",
+      "image": "https://m.media-amazon.com/images/I/61VfL-aiToL._AC_SL1500_.jpg"
+    }
+  ]
+}
