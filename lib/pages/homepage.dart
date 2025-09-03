@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:catalog_app/providers/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -62,8 +60,8 @@ class _HomePageState extends State<HomePage> {
             shape: CircleBorder(),
             child: Icon(
               themeProvider.themeMode == ThemeMode.dark
-                  ? Icons.dark_mode
-                  : Icons.light_mode,
+                  ?Icons.light_mode
+                  :  Icons.dark_mode,
             ),
           ),
           SizedBox(height: 10),
@@ -102,7 +100,7 @@ class CatalogHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Catalog App',
+          'Catalog App', 
           style: Theme.of(
             context,
           ).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -211,13 +209,9 @@ class ProductCard extends StatelessWidget {
                               Theme.of(context).colorScheme.primary,
                         ),
                         onPressed: () {},
-                        child: Text(
-                          'Buy',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
+                        child: Icon(
+                          Icons.shopping_cart_sharp,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                     ],

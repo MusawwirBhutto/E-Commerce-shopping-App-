@@ -67,10 +67,10 @@ class HomepageProductsDetails extends StatelessWidget {
                   ),
 
                   child: Text(
-                    'Buy',
+                    'Add to cart',
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
                   ),

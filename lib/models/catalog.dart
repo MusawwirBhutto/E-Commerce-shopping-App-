@@ -1,4 +1,15 @@
+class CatalogModel {
+static List<Products> ? products;
+
+static Products? getbyID(int id) => products?.firstWhere((product)=> product.id == id,);
+
+static Products? getbyposition(int position) => products?[position];
+
+}
+
+
 class Products {
+
   final int id;
   final String name;
   final String desc;
