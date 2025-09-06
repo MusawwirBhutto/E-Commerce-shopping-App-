@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              ), 
               SizedBox(height: 20.0),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -157,6 +157,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              SizedBox(height: 130), 
+              Text(
+                'Copyright ©2025 MusawwirBhutto',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

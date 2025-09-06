@@ -1,3 +1,4 @@
+import 'package:catalog_app/models/cartmodel.dart';
 import 'package:catalog_app/models/catalog.dart';
 import 'package:catalog_app/pages/homepage_products_details.dart';
 import 'package:catalog_app/utilis/routes.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     var decodedjson = jsonDecode(catalogjson);
     var productdata = decodedjson['products'];
 
-    /*It’s like: the list I have got is productData, and inside that list are maps. That’s why we use productData.map.
+   /*It’s like: the list I have got is productData, and inside that list are maps. That’s why we use productData.map.
     The <Products> part shows that it will return a list containing only Products objects.
 
     Inside that function, (a) takes a single map — let's say the one at index 0 — and sends it to Products.fromJson(a), which creates a Products object for the 0th index.
@@ -37,9 +38,11 @@ class _HomePageState extends State<HomePage> {
     Similarly, it processes the map at index 1, then index 2, and so on.
     In the end, all the Products objects that have been created are collected into a list, and that list is stored in productList, right? */
 
+
     setState(() {
       productsList =
           productdata.map<Products>((a) => Products.fromjson(a)).toList();
+      CatalogModel.products = productsList; // <-- Add this line
     });
   }
 
@@ -60,8 +63,8 @@ class _HomePageState extends State<HomePage> {
             shape: CircleBorder(),
             child: Icon(
               themeProvider.themeMode == ThemeMode.dark
-                  ?Icons.light_mode
-                  :  Icons.dark_mode,
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
             ),
           ),
           SizedBox(height: 10),
@@ -100,7 +103,7 @@ class CatalogHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Catalog App', 
+          'Catalog App',
           style: Theme.of(
             context,
           ).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -200,20 +203,7 @@ class ProductCard extends StatelessWidget {
                           context,
                         ).textTheme.headlineSmall?.copyWith(fontSize: 17),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.shopping_cart_sharp,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
+                      Cartbutton(catalog: product),
                     ],
                   ),
                 ],
@@ -222,6 +212,47 @@ class ProductCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class Cartbutton extends StatefulWidget {
+  final Products catalog;
+  const Cartbutton({super.key, required this.catalog});
+
+  @override
+  State<Cartbutton> createState() => _cartbuttonState();
+}
+
+// ignore: camel_case_types
+class _cartbuttonState extends State<Cartbutton> {
+  bool isadded = false;
+  final cart = CartModel(); // This is the singleton
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      onPressed: () {
+        cart.catalog = CatalogModel(); // Set the catalog if not already set
+        cart.add(widget.catalog); // Add the actual product
+        setState(() {
+          isadded = true;
+        });
+      },
+      child:
+          isadded
+              ? Icon(
+                Icons.done_sharp,
+                color: Theme.of(context).colorScheme.onPrimary,
+              )
+              : Icon(
+                Icons.shopping_cart_sharp,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
     );
   }
 }

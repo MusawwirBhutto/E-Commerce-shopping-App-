@@ -1,3 +1,4 @@
+import 'package:catalog_app/models/cartmodel.dart';
 import 'package:flutter/material.dart';
 
 class Cartpage extends StatelessWidget {
@@ -30,13 +31,24 @@ class CartTotal extends StatelessWidget {
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Buy',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontSize: 17,
-                color: Colors.white,
+          SizedBox(
+            height: 35,
+            width: 140,
+            child: ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Buying is not supported yet.'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              },
+              child: Text(
+                'Buy',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 17,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -53,18 +65,33 @@ class CartList extends StatefulWidget {
   State<CartList> createState() => _CartListState();
 }
 
+final _cart = CartModel();
+
 class _CartListState extends State<CartList> {
   @override
   Widget build(BuildContext context) {
+    if (_cart.products.isEmpty) {
+      return Center(
+        child: Text(
+          'Cart is empty',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      );
+    }
     return ListView.builder(
-      itemCount: 10,
+      itemCount: _cart.productIds.length,
       itemBuilder: (context, index) {
+        final product = _cart.products[index];
         return ListTile(
-          title: Text('item'),
+          title: Text(product?.name ?? 'Unknown'),
           leading: Icon(Icons.done),
           trailing: IconButton(
             icon: Icon(Icons.remove_circle_outline),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                if (product != null) _cart.remove(product);
+              });
+            },
           ),
         );
       },

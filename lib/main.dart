@@ -1,6 +1,6 @@
 import 'package:catalog_app/pages/cartpage.dart';
 import 'package:catalog_app/pages/homepage.dart';
-
+import 'package:catalog_app/pages/loginpage.dart';
 import 'package:catalog_app/providers/theme_provider.dart';
 import 'package:catalog_app/utilis/app_themes.dart';
 import 'package:catalog_app/utilis/routes.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
-            '/': (context) => HomePage(),
+            '/': (context) => LoginPage(),
             MyRoutes.homeRoute: (context) => HomePage(),
             MyRoutes.cartroute: (context) => Cartpage(),
           },

@@ -1,3 +1,4 @@
+import 'package:catalog_app/models/cartmodel.dart';
 import 'package:catalog_app/models/catalog.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,14 @@ class HomepageProductsDetails extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final cart = CartModel();
+                    cart.catalog = CatalogModel(); // Ensure catalog is set
+                    cart.add(product);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${product.name} added to cart!')),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueGrey,
                     shape: RoundedRectangleBorder(

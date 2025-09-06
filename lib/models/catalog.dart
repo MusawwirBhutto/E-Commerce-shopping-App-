@@ -7,7 +7,16 @@ static Products? getbyposition(int position) => products?[position];
 
 }
 
+// Singleton implementation for CatalogModel
+class CatalogSingleton {
+  CatalogSingleton._privateConstructor();
 
+  static final CatalogSingleton _instance = CatalogSingleton._privateConstructor();
+
+  static CatalogSingleton get instance => _instance;
+
+  CatalogModel catalog = CatalogModel();
+}
 class Products {
 
   final int id;
