@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         changeButton = true;
       });
-      await Future.delayed(Duration(milliseconds: 400));
+      await Future.delayed(Duration(milliseconds: 800));
 
       // ignore: use_build_context_synchronously
       await Navigator.pushNamed(context, MyRoutes.homeRoute);
@@ -36,138 +36,155 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Login ',
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+        },
+        child: Icon(
+          // ignore: unrelated_type_equality_checks
+          themeProvider == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode,
+          color: Colors.white,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-            },
-            icon: Icon(
-              // ignore: unrelated_type_equality_checks
-              themeProvider == ThemeMode.dark
-                  ? Icons.light_mode
-                  : Icons.dark_mode,
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Image.asset("assets/flutter vector.PNG", fit: BoxFit.cover),
-              SizedBox(height: 20.0),
-              Text(
-                "Welcome $name",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Container(
+                  width: 400,
+                  height: 180,
+                  child: Image.asset(
+                    "assets/flutter vector.PNG",
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ), 
-              SizedBox(height: 20.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 32.0,
+                SizedBox(height: 20.0),
+                Text(
+                  "Welcome $name",
+                  style: Theme.of(context).textTheme.headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: TextFormField(
+                SizedBox(height: 15.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 0.0,
+                    horizontal: 30.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 14),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person_outline),
+                            hintText: "Enter username",
+                            labelText: "Username",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "⚠️ Username cannot be empty";
+                            }
+      
+                            return null;
+                          },
+                          onChanged: (value) {
+                            name = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person_outline),
-                          hintText: "Enter username",
-                          labelText: "Username",
+                          prefixIcon: Icon(Icons.lock_open_outlined),
+                          hintText: "Enter password",
+                          labelText: "Password",
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "⚠️ Username cannot be empty";
+                            return "⚠️ Password cannot be empty";
+                          } else if (value.length < 7) {
+                            return "⚠️ Password length should be at least 7";
                           }
-
+      
                           return null;
                         },
-                        onChanged: (value) {
-                          name = value;
-                          setState(() {});
-                        },
                       ),
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock_open_outlined),
-                        hintText: "Enter password",
-                        labelText: "Password",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Forget password?',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ],
                         ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "⚠️ Password cannot be empty";
-                        } else if (value.length < 7) {
-                          return "⚠️ Password length should be at least 7";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 40.0),
-                    Material(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(
-                        changeButton ? 50 : 8,
-                      ),
-                      child: InkWell(
-                        onTap: () => moveToHome(context),
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 400),
-                          width: changeButton ? 50 : 150,
-                          height: 50,
-                          alignment: Alignment.center,
-                          child:
-                              changeButton
-                                  ? Icon(
-                                    Icons.done,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  )
-                                  : Text(
-                                    "Login",
-                                    style: TextStyle(
+                      SizedBox(height: 25.0),
+                      Material(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(
+                          changeButton ? 50 : 8,
+                        ),
+                        child: InkWell(
+                          onTap: () => moveToHome(context),
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 900),
+                            width: changeButton ? 30 : 300,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child:
+                                changeButton
+                                    ? Icon(
+                                      Icons.done,
                                       color:
                                           Theme.of(
                                             context,
                                           ).colorScheme.onPrimary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                    )
+                                    : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                  ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 7),
+                      Text(
+                        "Don't have account? ",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(fontSize: 17),
+                      ),
+      
+                      Text(
+                        "Sign In",
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(fontSize: 17),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 130), 
-              Text(
-                'Copyright ©2025 MusawwirBhutto',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

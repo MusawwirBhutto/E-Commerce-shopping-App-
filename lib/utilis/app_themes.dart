@@ -26,7 +26,7 @@ class AppThemes {
         fontWeight: FontWeight.bold,
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 0.7,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -72,12 +72,12 @@ class AppThemes {
         fontWeight: FontWeight.bold,
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.grey[850],
       elevation: 0.7,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
-    textTheme: TextTheme(
+    textTheme: TextTheme( 
       displayLarge: TextStyle(color: Colors.white),
       displayMedium: TextStyle(color: Colors.white70),
       displaySmall: TextStyle(color: Colors.grey[400]),

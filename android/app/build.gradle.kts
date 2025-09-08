@@ -9,6 +9,7 @@ android {
     namespace = "com.example.catalog_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
