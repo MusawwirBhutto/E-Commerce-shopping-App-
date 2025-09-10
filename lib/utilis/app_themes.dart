@@ -17,7 +17,6 @@ class AppThemes {
     scaffoldBackgroundColor: Colors.white,
     fontFamily: GoogleFonts.lato().fontFamily,
     appBarTheme: AppBarTheme(
-      color: Colors.white,
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(
@@ -63,7 +62,6 @@ class AppThemes {
     scaffoldBackgroundColor: const Color.fromARGB(255, 32, 32, 32),
     fontFamily: GoogleFonts.lato().fontFamily,
     appBarTheme: AppBarTheme(
-      color: const Color.fromARGB(255, 32, 32, 32),
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
@@ -77,7 +75,7 @@ class AppThemes {
       elevation: 0.7,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
-    textTheme: TextTheme( 
+    textTheme: TextTheme(
       displayLarge: TextStyle(color: Colors.white),
       displayMedium: TextStyle(color: Colors.white70),
       displaySmall: TextStyle(color: Colors.grey[400]),

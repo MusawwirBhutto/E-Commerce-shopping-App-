@@ -16,21 +16,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Products> productsList = []; //  This holds final data
+  List<Products> productsList = [];
+  List<Products> filteredProducts = [];
+  String searchQuery = "";
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    loadData(); //  Call loadData once when screen starts
+    loadData();
+    _searchController.addListener(() {
+      updateSearch(_searchController.text);
+    });
   }
 
-  Future loadData() async {
-    await Future.delayed(Duration(seconds: 1));
-    var catalogjson = await rootBundle.loadString('assets/catalog.json');
-    var decodedjson = jsonDecode(catalogjson);
-    var productdata = decodedjson['products'];
-
-   /*It’s like: the list I have got is productData, and inside that list are maps. That’s why we use productData.map.
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+  /*It’s like: the list I have got is productData, and inside that list are maps. That’s why we use productData.map.
     The <Products> part shows that it will return a list containing only Products objects.
 
     Inside that function, (a) takes a single map — let's say the one at index 0 — and sends it to Products.fromJson(a), which creates a Products object for the 0th index.
@@ -38,11 +43,30 @@ class _HomePageState extends State<HomePage> {
     Similarly, it processes the map at index 1, then index 2, and so on.
     In the end, all the Products objects that have been created are collected into a list, and that list is stored in productList, right? */
 
+  Future loadData() async {
+    await Future.delayed(Duration(seconds: 1));
+    var catalogjson = await rootBundle.loadString('assets/catalog.json');
+    var decodedjson = jsonDecode(catalogjson);
+    var productdata = decodedjson['products'];
 
     setState(() {
       productsList =
           productdata.map<Products>((a) => Products.fromjson(a)).toList();
-      CatalogModel.products = productsList; // <-- Add this line
+      CatalogModel.products = productsList;
+      filteredProducts = productsList;
+    });
+  }
+
+  void updateSearch(String query) {
+    setState(() {
+      searchQuery = query;
+      filteredProducts =
+          productsList
+              .where(
+                (product) =>
+                    product.name.toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
     });
   }
 
@@ -85,8 +109,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             SizedBox(height: 10),
             CatalogHeader(),
-            SizedBox(height: 30),
-            Expanded(child: CatalogProducts(productsList: productsList)),
+            SizedBox(height: 10),
+            SearchBarWidget(controller: _searchController),
+            SizedBox(height: 20),
+            Expanded(child: CatalogProducts(productsList: filteredProducts)),
           ],
         ),
       ),
@@ -236,11 +262,15 @@ class _cartbuttonState extends State<Cartbutton> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      onPressed: () {
+      onPressed: () async {
         cart.catalog = CatalogModel(); // Set the catalog if not already set
         cart.add(widget.catalog); // Add the actual product
         setState(() {
           isadded = true;
+        });
+        await Future.delayed(Duration(seconds: 1));
+        setState(() {
+          isadded = false;
         });
       },
       child:
@@ -253,6 +283,35 @@ class _cartbuttonState extends State<Cartbutton> {
                 Icons.shopping_cart_sharp,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
+    );
+  }
+}
+
+class SearchBarWidget extends StatelessWidget {
+  final TextEditingController controller;
+
+  const SearchBarWidget({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        height: 44,
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: 'Search products...',
+            prefixIcon: Icon(Icons.search),
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            filled: true,
+            fillColor:
+                Theme.of(context).inputDecorationTheme.fillColor ??
+                Colors.grey[100],
+          ),
+        ),
+      ),
     );
   }
 }

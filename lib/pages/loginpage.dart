@@ -63,8 +63,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 20.0),
                 Text(
                   "Welcome $name",
-                  style: Theme.of(context).textTheme.headlineMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 Padding(
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (value == null || value.isEmpty) {
                               return "⚠️ Username cannot be empty";
                             }
-      
+
                             return null;
                           },
                           onChanged: (value) {
@@ -114,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                           } else if (value.length < 7) {
                             return "⚠️ Password length should be at least 7";
                           }
-      
+                          Future.delayed(Duration(seconds: 1));
+
                           return null;
                         },
                       ),
@@ -166,19 +168,19 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 7),
+                      SizedBox(height: 12),
                       Text(
                         "Don't have account? ",
                         style: Theme.of(
                           context,
                         ).textTheme.headlineSmall?.copyWith(fontSize: 17),
                       ),
-      
+
                       Text(
                         "Sign In",
                         style: Theme.of(
                           context,
-                        ).textTheme.headlineSmall?.copyWith(fontSize: 17),
+                        ).textTheme.headlineSmall?.copyWith(fontSize: 21),
                       ),
                     ],
                   ),

@@ -1,23 +1,39 @@
 import 'package:catalog_app/models/cartmodel.dart';
 import 'package:flutter/material.dart';
 
-class Cartpage extends StatelessWidget {
+final _cart = CartModel();
+
+class Cartpage extends StatefulWidget {
   const Cartpage({super.key});
 
   @override
+  State<Cartpage> createState() => _CartpageState();
+}
+
+class _CartpageState extends State<Cartpage> {
+  void _updateCart() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final int total = _cart.totalPrice.toInt();
     return Scaffold(
       appBar: AppBar(title: Center(child: Text('Cart'))),
       body: Column(
-        children: [Expanded(child: CartList()), Divider(), CartTotal()],
+        children: [
+          Expanded(child: CartList(onCartChanged: _updateCart)),
+          Divider(),
+          CartTotal(total: total),
+        ],
       ),
     );
   }
 }
 
 class CartTotal extends StatelessWidget {
-  const CartTotal({super.key});
-
+  const CartTotal({super.key, required this.total});
+  final int total;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +42,7 @@ class CartTotal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Total:  \$999',
+            'Total: \$$total',
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -59,13 +75,11 @@ class CartTotal extends StatelessWidget {
 }
 
 class CartList extends StatefulWidget {
-  const CartList({super.key});
-
+  const CartList({super.key, required this.onCartChanged});
+  final VoidCallback onCartChanged;
   @override
   State<CartList> createState() => _CartListState();
 }
-
-final _cart = CartModel();
 
 class _CartListState extends State<CartList> {
   @override
@@ -83,7 +97,10 @@ class _CartListState extends State<CartList> {
       itemBuilder: (context, index) {
         final product = _cart.products[index];
         return ListTile(
-          title: Text(product?.name ?? 'Unknown'),
+          title: Text(
+            product?.name ?? 'Unknown',
+            style: TextStyle(fontSize: 20),
+          ),
           leading: Icon(Icons.done),
           trailing: IconButton(
             icon: Icon(Icons.remove_circle_outline),
@@ -91,6 +108,7 @@ class _CartListState extends State<CartList> {
               setState(() {
                 if (product != null) _cart.remove(product);
               });
+              widget.onCartChanged();
             },
           ),
         );
